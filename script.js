@@ -97,20 +97,29 @@ function showSurprise() {
     }, 3000);
 }
 
-// Função para tentar tocar a música automaticamente
+// Função para tentar tocar a música automaticamente ao rolar a página
+let tocouMusica = false;
+
 window.addEventListener('DOMContentLoaded', () => {
   const musica = document.getElementById('musica');
 
-  // Tentar tocar a música assim que a página carrega
-  const tocarMusica = () => {
-    musica.play().catch((e) => {
-      console.log("Autoplay bloqueado, aguardando interação do usuário.");
-    });
-  };
+  // Tenta tocar quando carrega (não deve funcionar sem interação, mas tentamos)
+  musica.play().catch((e) => {
+    console.log("Autoplay bloqueado, aguardando interação do usuário.");
+  });
 
-  // Tentar tocar a música assim que a página carrega
-  tocarMusica();
+  // Tocar ao clicar na página
+  document.body.addEventListener('click', () => {
+    musica.play().catch(e => console.log("Erro ao tocar com clique:", e));
+  }, { once: true });
 
-  // Tentar tocar novamente caso o usuário clique em qualquer lugar da página
-  document.body.addEventListener('click', tocarMusica, { once: true });
+  // Tocar ao rolar a página
+  window.addEventListener('scroll', () => {
+    if (!tocouMusica) {
+      musica.play().then(() => {
+        tocouMusica = true;
+        console.log("Música tocando ao rolar!");
+      }).catch(e => console.log("Erro ao tocar com scroll:", e));
+    }
+  });
 });
