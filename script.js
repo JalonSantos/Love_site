@@ -45,8 +45,6 @@ const surpriseMessages = [
     "Você é meu sonho acordado. 🌙💭",
     "Cada detalhe seu me encanta mais. ✨",
     "A cada batida do meu coração, tem um ‘eu te amo’. 💓",
-    
-    
 ];
 
 // Função para mostrar mensagem surpresa
@@ -97,4 +95,22 @@ function showSurprise() {
             style.remove();
         }, 500);
     }, 3000);
-} 
+}
+
+// Função para tentar tocar a música automaticamente
+window.addEventListener('DOMContentLoaded', () => {
+  const musica = document.getElementById('musica');
+
+  // Tentar tocar a música assim que a página carrega
+  const tocarMusica = () => {
+    musica.play().catch((e) => {
+      console.log("Autoplay bloqueado, aguardando interação do usuário.");
+    });
+  };
+
+  // Tentar tocar a música assim que a página carrega
+  tocarMusica();
+
+  // Tentar tocar novamente caso o usuário clique em qualquer lugar da página
+  document.body.addEventListener('click', tocarMusica, { once: true });
+});
